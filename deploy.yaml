@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'sam-cli-learning
+
+  Sample SAM Template for sam-cli-learning
+
+  '
+Globals:
+  Function:
+    Timeout: 60
+Resources:
+  GetEC2RegionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetEC2Regions
+      Description: SAM Demo get ec2 regions
+      Role: arn:aws:iam::583115839472:role/service-role/listS3buckets-role-kmxvtycs
+      CodeUri: s3://mahak-test-bucket/90fb8430ff08dde4df731f0319cc4a45
+      Handler: main.lambda_handler
+      Runtime: python3.8
+      Architectures:
+      - x86_64
+      Events:
+        GetEC2RegionsAPI:
+          Type: Api
+          Properties:
+            Path: /getec2regions
+            Method: get
+    Metadata:
+      SamResourceId: GetEC2RegionsFunction
+Outputs:
+  GetEC2RegionsAPI:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/getec2regions/
+  GetEC2RegionsFunction:
+    Description: Hello World Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - GetEC2RegionsFunction
+      - Arn
